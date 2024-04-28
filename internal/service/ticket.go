@@ -25,6 +25,7 @@ type TicketService interface {
 	UpdateUserTicket(emailAssignee, ticketId, email string) error
 	UpdateEditTicket(ticketId, email string, editTicket model.EditTicketRequest) error
 	UpdateStatusTicket(ticketId, email, status string) error
+	Summary(email string) ([]model.SummaryResponse, error)
 }
 
 func NewTicketService(ticketRepository repository.TicketRepository, conn *grpc.ClientConn) TicketService {
@@ -225,4 +226,38 @@ func (s *ticketService) UpdateStatusTicket(ticketId, email, status string) error
 	}
 
 	return nil
+}
+
+func (s *ticketService) Summary(email string) ([]model.SummaryResponse, error) {
+	resp, err := helper.GetUserByEmailGrpc(s.conn, email)
+	if err != nil {
+		return nil, err
+	}
+
+	var summaryResponses []model.SummaryResponse
+	result, err := s.ticketRepository.CountTicketGroupByStatus(resp.User.Id)
+	if err != nil {
+		return nil, err
+	}
+	for _, r := range result {
+		summaryResponses = append(summaryResponses, model.SummaryResponse{
+			Status:    r.Status,
+			TotalTask: r.Count,
+		})
+
+	}
+
+	result2, err := s.ticketRepository.SumTicketGroupByStatus(resp.User.Id)
+	if err != nil {
+		return nil, err
+	}
+	for _, r := range result2 {
+		for i, sr := range summaryResponses {
+			if sr.Status == r.Status {
+				summaryResponses[i].Point = r.Point
+			}
+		}
+	}
+
+	return summaryResponses, nil
 }

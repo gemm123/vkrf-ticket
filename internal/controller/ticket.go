@@ -17,6 +17,7 @@ type TicketController interface {
 	UpdateUserTicket(ctx *fiber.Ctx) error
 	UpdateEditTicket(ctx *fiber.Ctx) error
 	UpdateStatusTicket(ctx *fiber.Ctx) error
+	Summary(ctx *fiber.Ctx) error
 }
 
 func NewTicketController(ticketService service.TicketService) TicketController {
@@ -161,5 +162,23 @@ func (c *ticketController) UpdateStatusTicket(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Ticket updated",
 		"status":  fiber.StatusOK,
+	})
+}
+
+func (c *ticketController) Summary(ctx *fiber.Ctx) error {
+	email := ctx.Locals("email").(string)
+	summary, err := c.ticketService.Summary(email)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to get summary",
+			"status":  fiber.StatusInternalServerError,
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success",
+		"status":  fiber.StatusOK,
+		"data":    summary,
 	})
 }

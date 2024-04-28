@@ -65,3 +65,19 @@ type HistoryTicket struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type CountTicket struct {
+	Status string `json:"status"`
+	Count  int    `json:"count"`
+}
+
+type SumPoint struct {
+	Status string `json:"status"`
+	Point  int    `json:"point"`
+}
+
+type SummaryResponse struct {
+	TotalTask int    `json:"total_task"`
+	Status    string `json:"status"`
+	Point     int    `json:"point"`
+}
