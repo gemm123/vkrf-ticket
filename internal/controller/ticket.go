@@ -4,6 +4,7 @@ import (
 	"github.com/gemm123/vkrf-ticket/internal/model"
 	"github.com/gemm123/vkrf-ticket/internal/service"
 	"github.com/gofiber/fiber/v2"
+	"log"
 )
 
 type ticketController struct {
@@ -13,6 +14,7 @@ type ticketController struct {
 type TicketController interface {
 	CreateTicket(ctx *fiber.Ctx) error
 	GetAllTicket(ctx *fiber.Ctx) error
+	GetDetailTicket(ctx *fiber.Ctx) error
 }
 
 func NewTicketController(ticketService service.TicketService) TicketController {
@@ -59,5 +61,24 @@ func (c *ticketController) GetAllTicket(ctx *fiber.Ctx) error {
 		"message": "Success",
 		"status":  fiber.StatusOK,
 		"data":    tickets,
+	})
+}
+
+func (c *ticketController) GetDetailTicket(ctx *fiber.Ctx) error {
+	ticketId := ctx.Params("ticketId")
+	log.Println("GetDetailTicket called with ticketId:", ticketId)
+	detailTicket, err := c.ticketService.GetDetailTicket(ticketId)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to get detail ticket",
+			"status":  fiber.StatusInternalServerError,
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success",
+		"status":  fiber.StatusOK,
+		"data":    detailTicket,
 	})
 }

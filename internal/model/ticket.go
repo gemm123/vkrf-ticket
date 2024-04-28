@@ -24,10 +24,26 @@ type TicketRequest struct {
 }
 
 type TicketResponse struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	User        string `json:"user"`
-	ProfilePic  string `json:"profile_pic"`
+	Id          uuid.UUID `json:"id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	User        string    `json:"user"`
+	ProfilePic  string    `json:"profile_pic"`
+}
+
+type DetailTicketResponse struct {
+	Id                    string `json:"id"`
+	Username              string `json:"username"`
+	ProfilePic            string `json:"profile_pic"`
+	Title                 string `json:"title"`
+	Description           string `json:"description"`
+	HistoryTicketResponse []HistoryTicketResponse
+}
+
+type HistoryTicketResponse struct {
+	Date  string `json:"date"`
+	Title string `json:"title"`
+	User  string `json:"user"`
 }
 
 type HistoryTicket struct {

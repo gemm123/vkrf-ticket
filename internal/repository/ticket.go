@@ -13,6 +13,8 @@ type ticketRepository struct {
 type TicketRepository interface {
 	CreateTicket(ticket model.Ticket, historyTicket model.HistoryTicket) error
 	GetAllTicket() ([]model.Ticket, error)
+	GetHistoryTicketByTicketId(ticketId string) ([]model.HistoryTicket, error)
+	GetTicketById(ticketId string) (model.Ticket, error)
 }
 
 func NewTicketRepository(db *pgxpool.Pool) TicketRepository {
@@ -69,4 +71,39 @@ func (r *ticketRepository) GetAllTicket() ([]model.Ticket, error) {
 	}
 
 	return tickets, nil
+}
+
+func (r *ticketRepository) GetHistoryTicketByTicketId(ticketId string) ([]model.HistoryTicket, error) {
+	query := `SELECT * FROM history_ticket WHERE ticket_id = $1`
+	rows, err := r.db.Query(context.Background(), query, ticketId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var historyTickets []model.HistoryTicket
+	for rows.Next() {
+		historyTicket := model.HistoryTicket{}
+		err = rows.Scan(&historyTicket.Id, &historyTicket.TicketId, &historyTicket.Date, &historyTicket.Title,
+			&historyTicket.User, &historyTicket.CreatedAt, &historyTicket.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+		historyTickets = append(historyTickets, historyTicket)
+	}
+
+	return historyTickets, nil
+}
+
+func (r *ticketRepository) GetTicketById(ticketId string) (model.Ticket, error) {
+	query := `SELECT * FROM tickets WHERE id = $1`
+	row := r.db.QueryRow(context.Background(), query, ticketId)
+
+	ticket := model.Ticket{}
+	err := row.Scan(&ticket.Id, &ticket.UserId, &ticket.Title, &ticket.Description, &ticket.Status, &ticket.Point, &ticket.CreatedAt, &ticket.UpdatedAt)
+	if err != nil {
+		return model.Ticket{}, err
+	}
+
+	return ticket, nil
 }
