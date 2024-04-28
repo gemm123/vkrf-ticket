@@ -16,6 +16,7 @@ type TicketController interface {
 	GetDetailTicket(ctx *fiber.Ctx) error
 	UpdateUserTicket(ctx *fiber.Ctx) error
 	UpdateEditTicket(ctx *fiber.Ctx) error
+	UpdateStatusTicket(ctx *fiber.Ctx) error
 }
 
 func NewTicketController(ticketService service.TicketService) TicketController {
@@ -123,6 +124,33 @@ func (c *ticketController) UpdateEditTicket(ctx *fiber.Ctx) error {
 	}
 
 	if err := c.ticketService.UpdateEditTicket(ticketId, email, editTicket); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to update ticket",
+			"status":  fiber.StatusInternalServerError,
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Ticket updated",
+		"status":  fiber.StatusOK,
+	})
+}
+
+func (c *ticketController) UpdateStatusTicket(ctx *fiber.Ctx) error {
+	ticketId := ctx.Params("ticketId")
+	email := ctx.Locals("email").(string)
+	var jsonData map[string]interface{}
+
+	if err := ctx.BodyParser(&jsonData); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+			"status":  fiber.StatusBadRequest,
+			"error":   err.Error(),
+		})
+	}
+
+	if err := c.ticketService.UpdateStatusTicket(ticketId, email, jsonData["status"].(string)); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to update ticket",
 			"status":  fiber.StatusInternalServerError,

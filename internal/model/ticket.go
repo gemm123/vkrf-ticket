@@ -33,6 +33,8 @@ type TicketResponse struct {
 	Id          uuid.UUID `json:"id"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
+	Status      string    `json:"status"`
+	Point       int       `json:"point"`
 	User        string    `json:"user"`
 	ProfilePic  string    `json:"profile_pic"`
 }
@@ -43,6 +45,8 @@ type DetailTicketResponse struct {
 	ProfilePic            string `json:"profile_pic"`
 	Title                 string `json:"title"`
 	Description           string `json:"description"`
+	Status                string `json:"status"`
+	Point                 int    `json:"point"`
 	HistoryTicketResponse []HistoryTicketResponse
 }
 
