@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"github.com/gemm123/vkrf-ticket/helper"
 	grpcserver "github.com/gemm123/vkrf-ticket/internal/grpc"
 	"github.com/gemm123/vkrf-ticket/internal/model"
 	"github.com/gemm123/vkrf-ticket/internal/repository"
@@ -20,6 +22,7 @@ type TicketService interface {
 	CreateTicket(ticket model.TicketRequest, email string) error
 	GetAllTicket() ([]model.TicketResponse, error)
 	GetDetailTicket(ticketId string) (model.DetailTicketResponse, error)
+	UpdateUserTicket(emailAssignee, ticketId, email string) error
 }
 
 func NewTicketService(ticketRepository repository.TicketRepository, conn *grpc.ClientConn) TicketService {
@@ -142,4 +145,32 @@ func (s *ticketService) GetDetailTicket(ticketId string) (model.DetailTicketResp
 	}
 
 	return dtr, nil
+}
+
+func (s *ticketService) UpdateUserTicket(emailAssignee, ticketId, email string) error {
+	resp, err := helper.GetUserByEmailGrpc(s.conn, emailAssignee)
+	if err != nil {
+		return err
+	}
+
+	resp2, err := helper.GetUserByEmailGrpc(s.conn, email)
+	if err != nil {
+		return err
+	}
+
+	historyTicket := model.HistoryTicket{
+		Id:        uuid.New(),
+		TicketId:  uuid.MustParse(ticketId),
+		Date:      time.Now().Format("02 Jan 2006"),
+		Title:     fmt.Sprintf("Change Assignees to %s", resp.User.Name),
+		User:      resp2.User.Name,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	if err := s.ticketRepository.UpdateUserTicket(resp.User.Id, ticketId, historyTicket); err != nil {
+		return err
+	}
+
+	return nil
 }

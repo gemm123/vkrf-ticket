@@ -45,6 +45,7 @@ func main() {
 	v1.Get("/tickets", tickerController.GetAllTicket)
 	v1.Post("/tickets/create", tickerController.CreateTicket)
 	v1.Get("/tickets/:ticketId/", tickerController.GetDetailTicket)
+	v1.Put("/tickets/:ticketId/edit/assignee", tickerController.UpdateUserTicket)
 
 	app.Listen(":3001")
 }

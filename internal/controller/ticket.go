@@ -4,7 +4,6 @@ import (
 	"github.com/gemm123/vkrf-ticket/internal/model"
 	"github.com/gemm123/vkrf-ticket/internal/service"
 	"github.com/gofiber/fiber/v2"
-	"log"
 )
 
 type ticketController struct {
@@ -15,6 +14,7 @@ type TicketController interface {
 	CreateTicket(ctx *fiber.Ctx) error
 	GetAllTicket(ctx *fiber.Ctx) error
 	GetDetailTicket(ctx *fiber.Ctx) error
+	UpdateUserTicket(ctx *fiber.Ctx) error
 }
 
 func NewTicketController(ticketService service.TicketService) TicketController {
@@ -66,7 +66,6 @@ func (c *ticketController) GetAllTicket(ctx *fiber.Ctx) error {
 
 func (c *ticketController) GetDetailTicket(ctx *fiber.Ctx) error {
 	ticketId := ctx.Params("ticketId")
-	log.Println("GetDetailTicket called with ticketId:", ticketId)
 	detailTicket, err := c.ticketService.GetDetailTicket(ticketId)
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -80,5 +79,32 @@ func (c *ticketController) GetDetailTicket(ctx *fiber.Ctx) error {
 		"message": "Success",
 		"status":  fiber.StatusOK,
 		"data":    detailTicket,
+	})
+}
+
+func (c *ticketController) UpdateUserTicket(ctx *fiber.Ctx) error {
+	ticketId := ctx.Params("ticketId")
+	email := ctx.Locals("email").(string)
+	var jsonData map[string]interface{}
+
+	if err := ctx.BodyParser(&jsonData); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+			"status":  fiber.StatusBadRequest,
+			"error":   err.Error(),
+		})
+	}
+
+	if err := c.ticketService.UpdateUserTicket(jsonData["email"].(string), ticketId, email); err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to update ticket",
+			"status":  fiber.StatusInternalServerError,
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Ticket updated",
+		"status":  fiber.StatusOK,
 	})
 }
