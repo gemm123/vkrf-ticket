@@ -3,11 +3,13 @@ package controller
 import (
 	"github.com/gemm123/vkrf-ticket/internal/model"
 	"github.com/gemm123/vkrf-ticket/internal/service"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
 type ticketController struct {
 	ticketService service.TicketService
+	validate      *validator.Validate
 }
 
 type TicketController interface {
@@ -21,13 +23,21 @@ type TicketController interface {
 	Performance(ctx *fiber.Ctx) error
 }
 
-func NewTicketController(ticketService service.TicketService) TicketController {
-	return &ticketController{ticketService: ticketService}
+func NewTicketController(ticketService service.TicketService, validate *validator.Validate) TicketController {
+	return &ticketController{ticketService: ticketService, validate: validate}
 }
 
 func (c *ticketController) CreateTicket(ctx *fiber.Ctx) error {
 	ticket := model.TicketRequest{}
 	if err := ctx.BodyParser(&ticket); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+			"status":  fiber.StatusBadRequest,
+			"error":   err.Error(),
+		})
+	}
+	err := c.validate.Struct(ticket)
+	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid request",
 			"status":  fiber.StatusBadRequest,
@@ -90,8 +100,16 @@ func (c *ticketController) UpdateUserTicket(ctx *fiber.Ctx) error {
 	ticketId := ctx.Params("ticketId")
 	email := ctx.Locals("email").(string)
 	var jsonData map[string]interface{}
-
 	if err := ctx.BodyParser(&jsonData); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+			"status":  fiber.StatusBadRequest,
+			"error":   err.Error(),
+		})
+	}
+
+	err := c.validate.Var(jsonData["email"], "required,email")
+	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid request",
 			"status":  fiber.StatusBadRequest,
@@ -125,6 +143,14 @@ func (c *ticketController) UpdateEditTicket(ctx *fiber.Ctx) error {
 		})
 	}
 
+	if err := c.validate.Struct(editTicket); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+			"status":  fiber.StatusBadRequest,
+			"error":   err.Error(),
+		})
+	}
+
 	if err := c.ticketService.UpdateEditTicket(ticketId, email, editTicket); err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Failed to update ticket",
@@ -145,6 +171,14 @@ func (c *ticketController) UpdateStatusTicket(ctx *fiber.Ctx) error {
 	var jsonData map[string]interface{}
 
 	if err := ctx.BodyParser(&jsonData); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request",
+			"status":  fiber.StatusBadRequest,
+			"error":   err.Error(),
+		})
+	}
+
+	if err := c.validate.Var(jsonData["status"], "required"); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid request",
 			"status":  fiber.StatusBadRequest,

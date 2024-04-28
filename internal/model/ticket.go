@@ -17,16 +17,16 @@ type Ticket struct {
 }
 
 type TicketRequest struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Status      string `json:"status"`
-	Point       int    `json:"point"`
+	Title       string `json:"title" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	Status      string `json:"status" validate:"required"`
+	Point       int    `json:"point" validate:"required"`
 }
 
 type EditTicketRequest struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Point       int    `json:"point"`
+	Title       string `json:"title" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	Point       int    `json:"point" validate:"required"`
 }
 
 type TicketResponse struct {

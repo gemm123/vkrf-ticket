@@ -6,6 +6,7 @@ import (
 	"github.com/gemm123/vkrf-ticket/internal/repository"
 	"github.com/gemm123/vkrf-ticket/internal/service"
 	"github.com/gemm123/vkrf-ticket/middleware"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
@@ -28,11 +29,13 @@ func main() {
 	}
 	defer conn.Close()
 
+	validate := validator.New()
+
 	ticketRepository := repository.NewTicketRepository(db)
 
 	ticketService := service.NewTicketService(ticketRepository, conn)
 
-	tickerController := controller.NewTicketController(ticketService)
+	tickerController := controller.NewTicketController(ticketService, validate)
 
 	app := fiber.New()
 
