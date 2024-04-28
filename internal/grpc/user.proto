@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package grpc;
+option go_package = "./internal/grpc";
+
+message UserProto {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string profile_pic = 4;
+}
+
+message GetUserByEmailRequest {
+  string email = 1;
+}
+
+message GetUserByEmailResponse {
+  UserProto user = 1;
+}
+
+service UserService {
+  rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserByEmailResponse);
+}
