@@ -26,6 +26,7 @@ type TicketService interface {
 	UpdateEditTicket(ticketId, email string, editTicket model.EditTicketRequest) error
 	UpdateStatusTicket(ticketId, email, status string) error
 	Summary(email string) ([]model.SummaryResponse, error)
+	Performance(email string) (model.Performance, error)
 }
 
 func NewTicketService(ticketRepository repository.TicketRepository, conn *grpc.ClientConn) TicketService {
@@ -260,4 +261,44 @@ func (s *ticketService) Summary(email string) ([]model.SummaryResponse, error) {
 	}
 
 	return summaryResponses, nil
+}
+
+func (s *ticketService) Performance(email string) (model.Performance, error) {
+	resp, err := helper.GetUserByEmailGrpc(s.conn, email)
+	if err != nil {
+		return model.Performance{}, err
+	}
+
+	completedTask, err := s.ticketRepository.CountTicketDone(resp.User.Id)
+	if err != nil {
+		return model.Performance{}, err
+	}
+
+	totalTask, err := s.ticketRepository.CountTicket(resp.User.Id)
+	if err != nil {
+		return model.Performance{}, err
+	}
+
+	completedPoint, err := s.ticketRepository.SumPointTicketDone(resp.User.Id)
+	if err != nil {
+		return model.Performance{}, err
+	}
+
+	totalPoint, err := s.ticketRepository.SumPointTicket(resp.User.Id)
+	if err != nil {
+		return model.Performance{}, err
+	}
+
+	performance := model.Performance{
+		CompletedTask:            completedTask,
+		UnCompletedTask:          totalTask - completedTask,
+		TotalTask:                totalTask,
+		CompletedTaskPercentage:  fmt.Sprintf("%.f%%", float64(completedTask)/float64(totalTask)*100),
+		CompletedPoint:           completedPoint,
+		UnCompletedPoint:         totalPoint - completedPoint,
+		TotalPoint:               totalPoint,
+		CompletedPointPercentage: fmt.Sprintf("%.f%%", float64(completedPoint)/float64(totalPoint)*100),
+	}
+
+	return performance, nil
 }

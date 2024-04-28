@@ -20,6 +20,10 @@ type TicketRepository interface {
 	UpdateStatusTicket(status, ticketId string, historyTicket model.HistoryTicket) error
 	CountTicketGroupByStatus(userId string) ([]model.CountTicket, error)
 	SumTicketGroupByStatus(userId string) ([]model.SumPoint, error)
+	CountTicketDone(userId string) (int, error)
+	CountTicket(userId string) (int, error)
+	SumPointTicketDone(userId string) (int, error)
+	SumPointTicket(userId string) (int, error)
 }
 
 func NewTicketRepository(db *pgxpool.Pool) TicketRepository {
@@ -237,4 +241,56 @@ func (r *ticketRepository) SumTicketGroupByStatus(userId string) ([]model.SumPoi
 	}
 
 	return tickets, nil
+}
+
+func (r *ticketRepository) CountTicketDone(userId string) (int, error) {
+	query := `SELECT COUNT(*) FROM tickets WHERE user_id = $1 AND status = 'done'`
+	row := r.db.QueryRow(context.Background(), query, userId)
+
+	var count int
+	err := row.Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
+func (r *ticketRepository) CountTicket(userId string) (int, error) {
+	query := `SELECT COUNT(*) FROM tickets WHERE user_id = $1`
+	row := r.db.QueryRow(context.Background(), query, userId)
+
+	var count int
+	err := row.Scan(&count)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
+func (r *ticketRepository) SumPointTicketDone(userId string) (int, error) {
+	query := `SELECT SUM(point) FROM tickets WHERE user_id = $1 AND status = 'done'`
+	row := r.db.QueryRow(context.Background(), query, userId)
+
+	var sum int
+	err := row.Scan(&sum)
+	if err != nil {
+		return 0, err
+	}
+
+	return sum, nil
+}
+
+func (r *ticketRepository) SumPointTicket(userId string) (int, error) {
+	query := `SELECT SUM(point) FROM tickets WHERE user_id = $1`
+	row := r.db.QueryRow(context.Background(), query, userId)
+
+	var sum int
+	err := row.Scan(&sum)
+	if err != nil {
+		return 0, err
+	}
+
+	return sum, nil
 }

@@ -81,3 +81,14 @@ type SummaryResponse struct {
 	Status    string `json:"status"`
 	Point     int    `json:"point"`
 }
+
+type Performance struct {
+	CompletedTask            int    `json:"completedTask"`
+	UnCompletedTask          int    `json:"unCompletedTask"`
+	TotalTask                int    `json:"totalTask"`
+	CompletedTaskPercentage  string `json:"completedTaskPercentage"`
+	CompletedPoint           int    `json:"completedPoint"`
+	UnCompletedPoint         int    `json:"unCompletedPoint"`
+	TotalPoint               int    `json:"totalPoint"`
+	CompletedPointPercentage string `json:"completedPointPercentage"`
+}

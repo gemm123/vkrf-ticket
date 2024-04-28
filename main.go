@@ -51,6 +51,7 @@ func main() {
 	v1.Put("/tickets/:ticketId/status", tickerController.UpdateStatusTicket)
 
 	v1.Get("/summary", tickerController.Summary)
+	v1.Get("/performance", tickerController.Performance)
 
 	app.Listen(":3001")
 }
