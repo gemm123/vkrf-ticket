@@ -18,6 +18,7 @@ type ticketService struct {
 
 type TicketService interface {
 	CreateTicket(ticket model.TicketRequest, email string) error
+	GetAllTicket() ([]model.TicketResponse, error)
 }
 
 func NewTicketService(ticketRepository repository.TicketRepository, conn *grpc.ClientConn) TicketService {
@@ -65,4 +66,35 @@ func (s *ticketService) CreateTicket(ticket model.TicketRequest, email string) e
 	}
 
 	return nil
+}
+
+func (s *ticketService) GetAllTicket() ([]model.TicketResponse, error) {
+	tickets, err := s.ticketRepository.GetAllTicket()
+	if err != nil {
+		return nil, err
+	}
+
+	ticketResponses := make([]model.TicketResponse, 0)
+	for _, ticket := range tickets {
+		c := grpcserver.NewUserServiceClient(s.conn)
+		userRequest := grpcserver.GetUserByUserIdRequest{
+			UserId: ticket.UserId.String(),
+		}
+		resp, err := c.GetUserByUserId(context.Background(), &userRequest)
+		if err != nil {
+			log.Printf("Error: %v", err)
+			return nil, err
+		}
+
+		ticketResponse := model.TicketResponse{
+			Title:       ticket.Title,
+			Description: ticket.Description,
+			User:        resp.User.Name,
+			ProfilePic:  resp.User.ProfilePic,
+		}
+
+		ticketResponses = append(ticketResponses, ticketResponse)
+	}
+
+	return ticketResponses, nil
 }

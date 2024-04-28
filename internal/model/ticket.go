@@ -23,6 +23,13 @@ type TicketRequest struct {
 	Point       int    `json:"point"`
 }
 
+type TicketResponse struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	User        string `json:"user"`
+	ProfilePic  string `json:"profile_pic"`
+}
+
 type HistoryTicket struct {
 	Id        uuid.UUID `json:"id"`
 	TicketId  uuid.UUID `json:"ticket_id"`

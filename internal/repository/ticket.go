@@ -12,6 +12,7 @@ type ticketRepository struct {
 
 type TicketRepository interface {
 	CreateTicket(ticket model.Ticket, historyTicket model.HistoryTicket) error
+	GetAllTicket() ([]model.Ticket, error)
 }
 
 func NewTicketRepository(db *pgxpool.Pool) TicketRepository {
@@ -47,4 +48,25 @@ func (r *ticketRepository) CreateTicket(ticket model.Ticket, historyTicket model
 	}
 
 	return nil
+}
+
+func (r *ticketRepository) GetAllTicket() ([]model.Ticket, error) {
+	query := `SELECT * FROM tickets`
+	rows, err := r.db.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var tickets []model.Ticket
+	for rows.Next() {
+		ticket := model.Ticket{}
+		err = rows.Scan(&ticket.Id, &ticket.UserId, &ticket.Title, &ticket.Description, &ticket.Status, &ticket.Point, &ticket.CreatedAt, &ticket.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+		tickets = append(tickets, ticket)
+	}
+
+	return tickets, nil
 }

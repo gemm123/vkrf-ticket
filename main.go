@@ -43,6 +43,7 @@ func main() {
 	api := app.Group("/api")
 	v1 := api.Group("/v1", middleware.Middleware)
 	v1.Post("/tickets/create", tickerController.CreateTicket)
+	v1.Get("/tickets", tickerController.GetAllTicket)
 
 	app.Listen(":3001")
 }

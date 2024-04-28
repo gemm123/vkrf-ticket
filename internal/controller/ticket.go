@@ -12,6 +12,7 @@ type ticketController struct {
 
 type TicketController interface {
 	CreateTicket(ctx *fiber.Ctx) error
+	GetAllTicket(ctx *fiber.Ctx) error
 }
 
 func NewTicketController(ticketService service.TicketService) TicketController {
@@ -41,5 +42,22 @@ func (c *ticketController) CreateTicket(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Ticket created",
 		"status":  fiber.StatusCreated,
+	})
+}
+
+func (c *ticketController) GetAllTicket(ctx *fiber.Ctx) error {
+	tickets, err := c.ticketService.GetAllTicket()
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to get all tickets",
+			"status":  fiber.StatusInternalServerError,
+			"error":   err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success",
+		"status":  fiber.StatusOK,
+		"data":    tickets,
 	})
 }

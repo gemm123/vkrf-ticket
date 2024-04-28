@@ -18,6 +18,17 @@ message GetUserByEmailResponse {
   UserProto user = 1;
 }
 
+message GetUserByUserIdRequest {
+  string user_id = 1;
+}
+
+message GetUserByUserIdResponse {
+  UserProto user = 1;
+}
+
 service UserService {
   rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserByEmailResponse);
+  rpc GetUserByUserId (GetUserByUserIdRequest) returns (GetUserByUserIdResponse);
 }
+
+//protoc --go_out . --go-grpc_out . common/model/*.proto
