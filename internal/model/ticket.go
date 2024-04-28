@@ -23,6 +23,12 @@ type TicketRequest struct {
 	Point       int    `json:"point"`
 }
 
+type EditTicketRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Point       int    `json:"point"`
+}
+
 type TicketResponse struct {
 	Id          uuid.UUID `json:"id"`
 	Title       string    `json:"title"`
