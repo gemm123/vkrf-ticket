@@ -1,0 +1,61 @@
+<mxfile host="app.diagrams.net" modified="2024-04-29T12:37:10.871Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0" etag="yBqzThDABj_z1mcmhYAu" version="24.3.1" type="device">
+  <diagram name="Page-1" id="lHV5b5dMnvcg8cf7IsaG">
+    <mxGraphModel dx="1056" dy="556" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-1" target="lqzabW9O9YSdGGgQNXk9-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-1" target="lqzabW9O9YSdGGgQNXk9-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-1" value="user service" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-2" target="lqzabW9O9YSdGGgQNXk9-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-2" value="ticket service" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-3" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://grpc.io/img/logos/grpc-icon-color.png;" vertex="1" parent="1">
+          <mxGeometry x="370" y="320" width="70" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-7" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="250" y="210" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-6" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png;" vertex="1" parent="1">
+          <mxGeometry x="255.77" y="250" width="48.46" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-8" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="510" y="210" width="60" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-9" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png;" vertex="1" parent="1">
+          <mxGeometry x="515.77" y="250" width="48.46" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-1" target="lqzabW9O9YSdGGgQNXk9-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-2" target="lqzabW9O9YSdGGgQNXk9-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-12" target="lqzabW9O9YSdGGgQNXk9-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="lqzabW9O9YSdGGgQNXk9-12" target="lqzabW9O9YSdGGgQNXk9-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-12" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="384" y="480" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-15" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://miro.medium.com/v2/resize:fit:1280/1*B9CIOrxdROHvtdmouQA1_A.png;" vertex="1" parent="1">
+          <mxGeometry x="100" y="280" width="70" height="52.5" as="geometry" />
+        </mxCell>
+        <mxCell id="lqzabW9O9YSdGGgQNXk9-17" value="upload image" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="350" width="90" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

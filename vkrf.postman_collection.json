@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "e46a9d01-1d18-4b84-97b6-8e51dabbebf7",
+		"name": "vkrf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21254195",
+		"_collection_link": "https://crimson-spaceship-817612.postman.co/workspace/My-Workspace~20a4264d-dd62-4874-8bf2-164f99a42654/collection/21254195-e46a9d01-1d18-4b84-97b6-8e51dabbebf7?action=share&source=collection_link&creator=21254195"
+	},
+	"item": [
+		{
+			"name": "user-service",
+			"item": [
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "name2",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "email2@email.com",
+									"type": "text"
+								},
+								{
+									"key": "profile_pic",
+									"type": "file",
+									"src": "/C:/Users/gemaa/Desktop/isto.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/v1/users/create",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ticket-service",
+			"item": [
+				{
+					"name": "create ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "email@email.com",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"title4\",\r\n    \"description\": \"description4\",\r\n    \"status\": \"done\",\r\n    \"point\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/tickets/create",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"tickets",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all ticket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/v1/tickets",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get detail ticket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "localhost:3001/api/v1/tickets/1ab0f38d-a16b-4542-863e-104395b11bcc/",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"tickets",
+								"1ab0f38d-a16b-4542-863e-104395b11bcc",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update assignee ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "email@email.com",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/tickets/1ab0f38d-a16b-4542-863e-104395b11bcc/assignee",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"tickets",
+								"1ab0f38d-a16b-4542-863e-104395b11bcc",
+								"assignee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update edit ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "email@email.com",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"update2\",\r\n    \"description\": \"update2\",\r\n    \"point\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/tickets/1ab0f38d-a16b-4542-863e-104395b11bcc/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"tickets",
+								"1ab0f38d-a16b-4542-863e-104395b11bcc",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update status ticket",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "email@email.com",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"to do\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/v1/tickets/1ab0f38d-a16b-4542-863e-104395b11bcc/status",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"tickets",
+								"1ab0f38d-a16b-4542-863e-104395b11bcc",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "summary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "email@email.com",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3001/api/v1/summary",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"summary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "performance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "email@email.com",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3001/api/v1/performance",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"performance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
